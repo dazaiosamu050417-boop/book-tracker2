@@ -1,0 +1,54 @@
+# ... (функции load_books, save_books остаются без изменений)
+
+def is_duplicate(books, author, title):
+    """Проверяет, есть ли уже книга с таким автором и названием."""
+    for book in books:
+        if book['author'].lower() == author.lower() and book['title'].lower() == title.lower():
+            return True
+    return False
+
+def add_book():
+    """Добавляет новую книгу."""
+    print("\n--- Добавление новой книги ---")
+    author = input("Введите автора: ").strip()
+    if not author:
+        print("Ошибка: автор не может быть пустым.")
+        return
+
+    title = input("Введите название: ").strip()
+    if not title:
+        print("Ошибка: название не может быть пустым.")
+        return
+
+    # Проверка на дубликаты (это закроет наш Issue)
+    books = load_books()
+    if is_duplicate(books, author, title):
+        print(f"Ошибка: книга '{title}' автора '{author}' уже существует в трекере.")
+        return
+
+    try:
+        rating = int(input("Введите оценку (от 1 до 5): "))
+        if rating < 1 or rating > 5:
+            print("Ошибка: оценка должна быть от 1 до 5.")
+            return
+    except ValueError:
+        print("Ошибка: введите целое число.")
+        return
+
+    date = input("Введите дату прочтения (в любом формате, например, 2024-05-15): ").strip()
+    if not date:
+        print("Ошибка: дата не может быть пустой.")
+        return
+
+    new_book = {
+        "author": author,
+        "title": title,
+        "rating": rating,
+        "date": date
+    }
+
+    books.append(new_book)
+    save_books(books)
+    print(f"Книга '{title}' успешно добавлена!")
+
+# ... (остальные функции-заглушки и main)
