@@ -1,0 +1,41 @@
+# ... (load_books, save_books, add_book (пока заглушка), delete_book - заглушка)
+
+def show_all_books():
+    """Показывает список всех книг."""
+    books = load_books()
+    if not books:
+        print("\nСписок книг пуст.")
+        return
+
+    print("\n--- Список всех книг ---")
+    for i, book in enumerate(books, start=1):
+        print(f"{i}. {book['author']} - '{book['title']}'. Оценка: {book['rating']}. Дата: {book['date']}")
+
+def show_avg_rating():
+    """Показывает среднюю оценку по всем книгам."""
+    books = load_books()
+    if not books:
+        print("\nНет книг для расчёта средней оценки.")
+        return
+
+    total_rating = sum(book['rating'] for book in books)
+    avg_rating = total_rating / len(books)
+    print(f"\nСредняя оценка всех книг: {avg_rating:.2f}")
+
+def show_author_stats():
+    """Показывает статистику по авторам."""
+    books = load_books()
+    if not books:
+        print("\nНет книг для расчёта статистики.")
+        return
+
+    stats = {}
+    for book in books:
+        author = book['author']
+        stats[author] = stats.get(author, 0) + 1
+
+    print("\n--- Статистика по авторам ---")
+    for author, count in stats.items():
+        print(f"{author}: {count} книг(а)")
+
+# ... (main остается без изменений)
